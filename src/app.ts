@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 
 export default class EmailCapture {
@@ -19,7 +20,7 @@ export default class EmailCapture {
 	private buttonMesh: MRE.Mesh;
 	private buttonActor: MRE.Actor = null;
 	private labelActor: MRE.Actor = null;
-	private labelText = "Click To Sign Up!"
+	private labelText = "Click For more info!\n"
 
 	/**
 	 * Context Constructor
@@ -35,11 +36,11 @@ export default class EmailCapture {
 	private async signUp(user: MRE.User) {
 		
 		// GET CONTEXT
-		const userId     = user.id.toString();
-		const userName   = user.name
-		const spaceId    = user.properties["altspacevr-space-id"];
-		const eventId    = user.properties["altspacevr-event-id"];
-		const isEvent    = ( eventId === null ) ? false : true;
+		const userId = user.id.toString();
+		const userName = user.name
+		const spaceId = user.properties["altspacevr-space-id"];
+		const eventId = user.properties["altspacevr-event-id"];
+		const isEvent = ( eventId === null ) ? false : true;
 		const locationId = (isEvent) ? eventId : spaceId
 		
 		if ( this.DEBUG ) { 
@@ -61,8 +62,8 @@ export default class EmailCapture {
 		this.EmailList.set(userId, emailAddress)
 		
 		// RETURN
-		return await user.prompt("You entered: " + emailAddress + "\n\nPrepare for SPAM fool! MWUAHAHA!!");
-    }
+		return await user.prompt("You entered: " + emailAddress + "\n\nThanks for visiting Rocket City!");
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	//  
@@ -105,9 +106,9 @@ export default class EmailCapture {
 
 		// On click...
 		const buttonBehavior = this.buttonActor.setBehavior(MRE.ButtonBehavior);
-        buttonBehavior.onButton('released', (user: any) => {
+		buttonBehavior.onButton('released', (user: any) => {
 			// Trigger signUp() function
-            this.signUp(user);
+			this.signUp(user);
 		});
 		
 	}
