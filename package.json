@@ -46,6 +46,7 @@
         "@types/node": "^10.3.1",
         "dotenv": "^6.2.0",
         "fetch": "^1.1.0",
+        "localtunnel": "^2.0.2",
         "tedis": "^0.1.12"
     }
 }
