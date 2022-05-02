@@ -1,6 +1,20 @@
 /* eslint-disable max-len */
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 
+import fetch from 'node-fetch';
+async function sendInfo(_userId: any,_email: string): Promise<any> {
+	const response = await fetch("https://prod-100.westus.logic.azure.com:443/workflows/17eb83324cb3449195cd98f89640e0c6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LR2c2jGYVrqTI2MSQhTPQFgcCAgMSmEId8Hg8FvF9FM", {
+		method: 'POST',
+		body: JSON.stringify({id:_userId,email:_email}),
+		headers: {'Content-Type': 'application/json', Accept: 'application/json',} ,
+	});
+	
+	// eslint-disable-next-line no-console
+	return response.json().then(()=> { console.log(response); });
+	
+}
+
+
 export default class EmailCapture {
 	private assets: MRE.AssetContainer;
 	private userInput: MRE.DialogResponse;
@@ -15,12 +29,12 @@ export default class EmailCapture {
 	private buttonMaterial: MRE.Material;
 	private position: any = null
 	private rotation: any = null
-	
+	private scale: any= null
 	// Meshes
 	private buttonMesh: MRE.Mesh;
 	private buttonActor: MRE.Actor = null;
 	private labelActor: MRE.Actor = null;
-	private labelText = "Click For more info!\n"
+	private labelText = "Check In Here!\n"
 
 	/**
 	 * Context Constructor
@@ -37,11 +51,11 @@ export default class EmailCapture {
 		
 		// GET CONTEXT
 		const userId = user.id.toString();
-		const userName = user.name
-		const spaceId = user.properties["altspacevr-space-id"];
-		const eventId = user.properties["altspacevr-event-id"];
-		const isEvent = ( eventId === null ) ? false : true;
-		const locationId = (isEvent) ? eventId : spaceId
+		const userName = user.name.toString();
+		// const spaceId = user.properties["altspacevr-space-id"].toString();
+		// const eventId = user.properties["altspacevr-event-id"];
+		// const isEvent = ( eventId === null ) ? false : true;
+		// const locationId = (isEvent) ? eventId : spaceId
 		
 		if ( this.DEBUG ) { 
 			//console.info("\n\n");
@@ -52,7 +66,7 @@ export default class EmailCapture {
 			//console.info(user.context);
 			//console.info(user.properties);
 		}
-
+		
 		// PROMPT FOR EMAIL
 		this.userInput = await user.prompt("Enter your email address:", true);
 		if (! this.userInput.submitted || this.userInput.text === '' ) { return; }
@@ -60,9 +74,10 @@ export default class EmailCapture {
 
 		// ADD TO LIST
 		this.EmailList.set(userId, emailAddress)
-		
+		//sendInfo
+		sendInfo(userId, emailAddress)
 		// RETURN
-		return await user.prompt("You entered: " + emailAddress + "\n\nThanks for visiting Rocket City!");
+		return await user.prompt("You entered: " + emailAddress + "\n\n"+userName);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,10 +86,12 @@ export default class EmailCapture {
 	//
 	private init() {
 		this.assets = new MRE.AssetContainer(this.context);
-		
+	
+		// xxx;
 		// Materials
-		this.buttonMaterial = this.assets.createMaterial('buttonMaterial', {
-			color: { r: 180 / 255, g: 255 / 255, b: 0 / 255, a: 255 / 255 },
+		this.buttonMaterial = this.assets
+		.createMaterial('buttonMaterial', {
+			color: { r: 0/ 255, g: 255 / 255, b: 200 / 255, a: 125 / 255 },
 			alphaMode: MRE.AlphaMode.Blend
 		});
 
@@ -82,8 +99,18 @@ export default class EmailCapture {
 		this.buttonMesh = this.assets.createBoxMesh('buttonMesh', .15, .15, .15);
 		
 		// Create Button
+		this.scale = {x:1000,y:1000,z:1000}
 		this.position = { x: 0.0, y: 0.0, z: 0.0 }
 		this.rotation = MRE.Quaternion.FromEulerAngles( 0 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians )
+		// this.buttonActor = MRE.Actor.CreateFromLibrary(this.context,{
+		// 	resourceId: "1992740185720225837" ,actor: { 
+		// 		name: 'Rocket', 
+		// 		collider: { geometry: { shape: MRE.ColliderType.Auto} },
+		// 		transform: { local: { 
+		// 			position: this.position, rotation: this.rotation, scale: this.scale } },
+				
+		// 	}
+		// });
 		this.buttonActor = MRE.Actor.Create(this.context, {
 			actor: { 
 				name: 'Signup Button', 
