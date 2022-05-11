@@ -34,7 +34,7 @@ export default class EmailCapture {
 	private buttonMesh: MRE.Mesh;
 	private buttonActor: MRE.Actor = null;
 	private labelActor: MRE.Actor = null;
-	private labelText = "Check In Here!\n"
+	private labelText = "Get My Songs to your inbox Now!!!!\n"
 
 	/**
 	 * Context Constructor
@@ -68,7 +68,7 @@ export default class EmailCapture {
 		}
 		
 		// PROMPT FOR EMAIL
-		this.userInput = await user.prompt("Enter your email address:", true);
+		this.userInput = await user.prompt("Im Gonna send you some heat\nEnter your email address:", true);
 		if (! this.userInput.submitted || this.userInput.text === '' ) { return; }
 		const emailAddress = this.userInput.text.toLowerCase();
 
@@ -99,30 +99,32 @@ export default class EmailCapture {
 		this.buttonMesh = this.assets.createBoxMesh('buttonMesh', .15, .15, .15);
 		
 		// Create Button
-		this.scale = {x:1000,y:1000,z:1000}
+		this.scale = {x:1,y:1,z:1}
 		this.position = { x: 0.0, y: 0.0, z: 0.0 }
 		this.rotation = MRE.Quaternion.FromEulerAngles( 0 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians )
-		// this.buttonActor = MRE.Actor.CreateFromLibrary(this.context,{
-		// 	resourceId: "1992740185720225837" ,actor: { 
-		// 		name: 'Rocket', 
-		// 		collider: { geometry: { shape: MRE.ColliderType.Auto} },
-		// 		transform: { local: { 
-		// 			position: this.position, rotation: this.rotation, scale: this.scale } },
-				
-		// 	}
-		// });
-		this.buttonActor = MRE.Actor.Create(this.context, {
-			actor: { 
-				name: 'Signup Button', 
+		this.buttonActor = MRE.Actor.CreateFromLibrary(this.context,{
+			resourceId: "artifact:1997098402474623039" ,actor: { 
+				name: 'Rocket',
+				grabbable: true, 
 				collider: { geometry: { shape: MRE.ColliderType.Auto} },
-				transform: { local: { position: this.position, rotation: this.rotation } },
-				appearance: { materialId: this.buttonMaterial.id, meshId: this.buttonMesh.id }
+				transform: { local: { 
+					position: this.position, rotation: this.rotation, scale: this.scale } },
+					
+				
 			}
 		});
+		// this.buttonActor = MRE.Actor.Create(this.context, {
+		// 	actor: { 
+		// 		name: 'Signup Button', 
+		// 		collider: { geometry: { shape: MRE.ColliderType.Auto} },
+		// 		transform: { local: { position: this.position, rotation: this.rotation } },
+		// 		appearance: { materialId: this.buttonMaterial.id, meshId: this.buttonMesh.id }
+		// 	}
+		// });
 
 		// Add Text Label
 		this.position = { x: 0, y: .35, z: 0 }
-		this.rotation = MRE.Quaternion.FromEulerAngles( 0 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians )
+		this.rotation = MRE.Quaternion.FromEulerAngles( 0 * MRE.DegreesToRadians, -90 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians )
 		this.labelActor = MRE.Actor.Create(this.context, {
 			actor: {
 				name: 'Button Label',

@@ -23,22 +23,22 @@ dotenv.config();
 // small delay is introduced allowing time for the debugger to attach before
 // the server starts accepting connections.
 function runApp() {    //create local tunnel 
-	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	const lt = require('localtunnel');
-	(async() => {
-		const tunnel = await lt({ port: 3901 });
+	// // eslint-disable-next-line @typescript-eslint/no-var-requires
+	// const lt = require('localtunnel');
+	// (async() => {
+	// 	const tunnel = await lt({ port: 3901 });
 	
-		// the assigned public url for your tunnel
-		// i.e. https://abcdefgjhij.localtunnel.me
-		// eslint-disable-next-line no-console
-		console.log(tunnel.url);
+	// 	// the assigned public url for your tunnel
+	// 	// i.e. https://abcdefgjhij.localtunnel.me
+	// 	// eslint-disable-next-line no-console
+	// 	console.log(tunnel.url);
 	
-		tunnel.on('close', () => {
-			// tunnels are closed
-			// eslint-disable-next-line no-console
-			console.log(tunnel.url);
-		});
-	})();
+	// 	tunnel.on('close', () => {
+	// 		// tunnels are closed
+	// 		// eslint-disable-next-line no-console
+	// 		console.log(tunnel.url);
+	// 	});
+	// })();
 	// Start listening for connections, and serve static files.
 	const server = new WebHost({
 		// baseUrl: 'http://<ngrok-id>.ngrok.io',
