@@ -15,7 +15,8 @@ async function sendInfo(_userId: any, _email: string): Promise<any> {
 	return response.json().then(() => { console.log(response.status); });
 
 }
-// 
+
+
 
 export default class EmailCapture {
 	private assets: MRE.AssetContainer;
