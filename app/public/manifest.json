@@ -1,0 +1,10 @@
+{
+    "name": "yese",
+    "author": "Microsoft",
+    "license": "MIT",
+    "repositoryUrl": "",
+    "optionalPermissions": [
+        "user-interaction",
+        "user-tracking"
+    ]
+}
