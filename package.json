@@ -25,9 +25,9 @@
         "savage": "npm run build && npm start"
     },
     "dependencies": {
-        "@microsoft/mixed-reality-extension-sdk": "^0.13.0",
-        "dotenv": "^6.2.0",
-        "fetch": "^1.1.0",
+        "@microsoft/mixed-reality-extension-sdk": "^0.20.0",
+        "dotenv": "^16.0.2",
+        "node-fetch": "^2.6.7",
         "localtunnel": "^2.0.2"
     }
 }
