@@ -2,18 +2,20 @@
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 
 import fetch from 'node-fetch';
-async function sendInfo(_userId: any,_email: string): Promise<any> {
-	const response = await fetch("https://prod-100.westus.logic.azure.com:443/workflows/17eb83324cb3449195cd98f89640e0c6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LR2c2jGYVrqTI2MSQhTPQFgcCAgMSmEId8Hg8FvF9FM", {
+async function sendInfo(_userId: any, _email: string): Promise<any> {
+	const obj: any = { id: _userId, email: _email };
+	const response = await fetch("https://handlers.handf.us/webhook-test/4549864f-0097-4394-a086-69f11a94d93c", {
 		method: 'POST',
-		body: JSON.stringify({id:_userId,email:_email}),
-		headers: {'Content-Type': 'application/json', Accept: 'application/json',} ,
-	});
-	
-	// eslint-disable-next-line no-console
-	return response.json().then(()=> { console.log(response); });
-	
-}
 
+		headers: { 'Content-Type': 'application/json', Accept: 'application/json', },
+		body: JSON.stringify(obj)
+	});
+
+	// eslint-disable-next-line no-console
+	return response.json().then(() => { console.log(response.status); });
+
+}
+// 
 
 export default class EmailCapture {
 	private assets: MRE.AssetContainer;
@@ -23,18 +25,18 @@ export default class EmailCapture {
 	private DEBUG = true;
 
 	// Internal List of Emails
-	private EmailList: Map<string,string> = new Map(); 
-		
+	private EmailList: Map<string, string> = new Map();
+
 	// Buttons
 	private buttonMaterial: MRE.Material;
 	private position: any = null
 	private rotation: any = null
-	private scale: any= null
+	private scale: any = null
 	// Meshes
 	private buttonMesh: MRE.Mesh;
 	private buttonActor: MRE.Actor = null;
 	private labelActor: MRE.Actor = null;
-	private labelText = "Get My Songs to your inbox Now!!!!\n"
+	private labelText = "Get Highman merch to your inbox Now!!!!\n↓↓↓↓↓↓↓"
 
 	/**
 	 * Context Constructor
@@ -48,7 +50,7 @@ export default class EmailCapture {
 	//  SIGN UP :: Add your address to the emailing list
 	//
 	private async signUp(user: MRE.User) {
-		
+
 		// GET CONTEXT
 		const userId = user.id.toString();
 		const userName = user.name.toString();
@@ -56,8 +58,8 @@ export default class EmailCapture {
 		// const eventId = user.properties["altspacevr-event-id"];
 		// const isEvent = ( eventId === null ) ? false : true;
 		// const locationId = (isEvent) ? eventId : spaceId
-		
-		if ( this.DEBUG ) { 
+
+		if (this.DEBUG) {
 			//console.info("\n\n");
 			//console.info(" >>> DEBUG >>> userId: " + userId);
 			//console.info(" >>> DEBUG >>> spaceId: " + spaceId);
@@ -66,10 +68,10 @@ export default class EmailCapture {
 			//console.info(user.context);
 			//console.info(user.properties);
 		}
-		
+
 		// PROMPT FOR EMAIL
-		this.userInput = await user.prompt("Im Gonna send you some heat\nEnter your email address:", true);
-		if (! this.userInput.submitted || this.userInput.text === '' ) { return; }
+		this.userInput = await user.prompt("We will send Highsman straight to your inbox\nEnter your email address:", true);
+		if (!this.userInput.submitted || this.userInput.text === '') { return; }
 		const emailAddress = this.userInput.text.toLowerCase();
 
 		// ADD TO LIST
@@ -77,40 +79,43 @@ export default class EmailCapture {
 		//sendInfo
 		sendInfo(userId, emailAddress)
 		// RETURN
-		return await user.prompt("You entered: " + emailAddress + "\n\n"+userName);
+		return await user.prompt("You entered: " + emailAddress + "\n\n" + userName);
 	}
-
+	///
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	//  
 	//  INIT APP
 	//
 	private init() {
 		this.assets = new MRE.AssetContainer(this.context);
-	
+
 		// xxx;
 		// Materials
 		this.buttonMaterial = this.assets
-		.createMaterial('buttonMaterial', {
-			color: { r: 0/ 255, g: 255 / 255, b: 200 / 255, a: 125 / 255 },
-			alphaMode: MRE.AlphaMode.Blend
-		});
+			.createMaterial('buttonMaterial', {
+				color: { r: 0 / 255, g: 255 / 255, b: 200 / 255, a: 125 / 255 },
+				alphaMode: MRE.AlphaMode.Blend
+			});
 
 		// Meshes
 		this.buttonMesh = this.assets.createBoxMesh('buttonMesh', .15, .15, .15);
-		
+
 		// Create Button
-		this.scale = {x:1,y:1,z:1}
-		this.position = { x: 0.0, y: 0.0, z: 0.0 }
-		this.rotation = MRE.Quaternion.FromEulerAngles( 0 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians )
-		this.buttonActor = MRE.Actor.CreateFromLibrary(this.context,{
-			resourceId: "artifact:1997098402474623039" ,actor: { 
+		this.scale = { x: 0.4, y: 0.4, z: 0.4 }
+		this.position = { x: 0.0, y: 0.13, z: 0 }
+		this.rotation = MRE.Quaternion.FromEulerAngles(0 * MRE.DegreesToRadians, 180 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians)
+		this.buttonActor = MRE.Actor.CreateFromLibrary(this.context, {
+			resourceId: "artifact:2088901321275998212", actor: {
 				name: 'Rocket',
-				grabbable: true, 
-				collider: { geometry: { shape: MRE.ColliderType.Auto} },
-				transform: { local: { 
-					position: this.position, rotation: this.rotation, scale: this.scale } },
-					
-				
+				grabbable: true,
+				collider: { geometry: { shape: MRE.ColliderType.Auto } },
+				transform: {
+					local: {
+						position: this.position, rotation: this.rotation, scale: this.scale
+					}
+				},
+
+
 			}
 		});
 		// this.buttonActor = MRE.Actor.Create(this.context, {
@@ -124,7 +129,7 @@ export default class EmailCapture {
 
 		// Add Text Label
 		this.position = { x: 0, y: .35, z: 0 }
-		this.rotation = MRE.Quaternion.FromEulerAngles( 0 * MRE.DegreesToRadians, -90 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians )
+		this.rotation = MRE.Quaternion.FromEulerAngles(0 * MRE.DegreesToRadians, -90 * MRE.DegreesToRadians, 0 * MRE.DegreesToRadians)
 		this.labelActor = MRE.Actor.Create(this.context, {
 			actor: {
 				name: 'Button Label',
@@ -139,6 +144,6 @@ export default class EmailCapture {
 			// Trigger signUp() function
 			this.signUp(user);
 		});
-		
+
 	}
 }
