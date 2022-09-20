@@ -45,6 +45,7 @@ module.exports = {
         ],
         "max-classes-per-file": ["warn", 1],
         "max-len": ["error", 120],
+
         "no-console": "error",
         "no-div-regex": "error",
         "no-empty": ["error", { "allowEmptyCatch": true }],
@@ -79,12 +80,18 @@ module.exports = {
                 }
             }
         ],
-        "@typescript-eslint/camelcase": ["warn", { "allow": ["^_[a-z][A-Za-z0-9]*$"] }],
+        // "@typescript-eslint/camelcase": ["warn", { "allow": ["^_[a-z][A-Za-z0-9]*$"] }],
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/camelcase": "off",
+        "no-mixed-spaces-and-tabs": "off",
+        "no-loss-of-precision": "off",
+        "@typescript-eslint/no-loss-of-precision": "error",
         "@typescript-eslint/no-unused-vars": [
             "warn",
             { "args": "none" }

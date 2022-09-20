@@ -24,30 +24,30 @@ dotenv.config();
 // small delay is introduced allowing time for the debugger to attach before
 // the server starts accepting connections.
 function runApp() {    //create local tunnel 
-    // // eslint-disable-next-line @typescript-eslint/no-var-requires
-    // const lt = require('localtunnel');
-    // (async() => {
-    // 	const tunnel = await lt({ port: 3901 });
+	// // eslint-disable-next-line @typescript-eslint/no-var-requires
+	// const lt = require('localtunnel');
+	// (async() => {
+	// 	const tunnel = await lt({ port: 3901 });
 
-    // 	// the assigned public url for your tunnel
-    // 	// i.e. https://abcdefgjhij.localtunnel.me
-    // 	// eslint-disable-next-line no-console
-    // 	console.log(tunnel.url);
+	// 	// the assigned public url for your tunnel
+	// 	// i.e. https://abcdefgjhij.localtunnel.me
+	// 	// eslint-disable-next-line no-console
+	// 	console.log(tunnel.url);
 
-    // 	tunnel.on('close', () => {
-    // 		// tunnels are closed
-    // 		// eslint-disable-next-line no-console
-    // 		console.log(tunnel.url);
-    // 	});
-    // })();
-    // Start listening for connections, and serve static files.
-    const server = new WebHost({
-        // baseUrl: 'http://<ngrok-id>.ngrok.io',
-        baseDir: resolvePath(__dirname, '../public')
-    });
+	// 	tunnel.on('close', () => {
+	// 		// tunnels are closed
+	// 		// eslint-disable-next-line no-console
+	// 		console.log(tunnel.url);
+	// 	});
+	// })();
+	// Start listening for connections, and serve static files.
+	const server = new WebHost({
+		// baseUrl: 'http://<ngrok-id>.ngrok.io',
+		baseDir: resolvePath(__dirname, '../public')
+	});
 
-    // Handle new application sessions
-    server.adapter.onConnection(context => new App(context, server.baseUrl));
+	// Handle new application sessions
+	server.adapter.onConnection(context => new App(context, server.baseUrl));
 }
 
 // Check whether code is running in a debuggable watched filesystem
@@ -61,7 +61,7 @@ const argv = process.execArgv.join();
 const isDebug = argv.includes('inspect') || argv.includes('debug');
 
 if (isDebug) {
-    setTimeout(runApp, delay);
+	setTimeout(runApp, delay);
 } else {
-    runApp();
+	runApp();
 }
